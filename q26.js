@@ -37,3 +37,28 @@ db.employees.aggregate([
     {$skip:1},
     {$limit:1} 
 ]);
+
+db.employees.aggregate([
+    {$match:{department:{$in:["HR","IT"]}}},
+    {$group:{
+        _id:"$department",
+        total:{$sum:"$salary"}
+    }}
+]);
+
+db.employees.aggregate([
+    {$match:{name:{$exists:true}}},
+    {$project:{_id:0,name:1,location:1}},
+    {$unwind:"$location"}//unwind---print each attribute in seperate line..instead of printing as an array
+]);
+
+db.employees.aggregate([
+    {$match:{department:{$in:["HR","IT"]}}},
+    {$project:{department:1,
+        salary:1,
+        salary: {$convert: {input: "$salary", to: "int"}}}},
+    {$group:{
+        _id:"$department",
+        total:{$sum:"$salary"}
+    }}
+]);
