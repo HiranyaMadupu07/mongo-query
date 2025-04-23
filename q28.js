@@ -69,3 +69,8 @@ db.createView("marksView","marks",[
 
 db.marksView.find()
 db.marksView.drop()
+
+db.createView("HREmployees","employees",[
+    {$match: {department:"HR"}}
+]);
+db.HREmployees.find()
